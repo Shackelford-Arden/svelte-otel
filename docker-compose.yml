@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  proxy:
+    image: "traefik:latest"
+    ports:
+      - "9090:80"
+      - "9091:8080"
+    volumes:
+      - "./docker-config/traefik-config.toml:/etc/traefik/traefik.toml"
