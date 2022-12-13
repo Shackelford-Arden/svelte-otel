@@ -1,4 +1,3 @@
-import { env } from 'node:process';
 import {
     BatchSpanProcessor, ConsoleSpanExporter, WebTracerProvider,
 } from '@opentelemetry/sdk-trace-web';
@@ -9,10 +8,15 @@ import {registerInstrumentations} from '@opentelemetry/instrumentation';
 import {DocumentLoadInstrumentation} from "@opentelemetry/instrumentation-document-load";
 
 const providerWithZone = new WebTracerProvider();
+
+console.log("Reached tracing!")
+console.log(`Here is the env for OTel endpoint: ${import.meta.env.VITE_OTEL_EXPORTER_OTLP_ENDPOINT}`)
+
+// env var parsing: https://vitejs.dev/guide/env-and-mode.html
 providerWithZone.addSpanProcessor(new BatchSpanProcessor(new OTLPTraceExporter(
     {
-        serviceName: env.OTEL_SERVICE_NAME,
-        url: env.OTEL_EXPORTER_OTLP_ENDPOINT,
+        serviceName: import.meta.env.VITE_OTEL_SERVICE_NAME,
+        url: import.meta.env.VITE_OTEL_EXPORTER_OTLP_ENDPOINT,
         insecure: true
     }
 )));
